@@ -3,8 +3,10 @@
 create a new virtual environment with python version > 3
 
 pip install -r requirements.txt
+(for mysqlclient, you will have to avoid python 3.10. Use only lower versions)
 
-make a table named newtableforquiz in your xamp server to integrate the databse access. 
+make a table named newtableforquiz in your xamp server to integrate the database access. 
+Make new database named newtableforquiz and import the newtableforquiz.sql file in the database
 
 match the port number in the databases port object in settings. py.
 
