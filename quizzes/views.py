@@ -4,6 +4,19 @@ from django.http import JsonResponse
 from django.views.generic.list import ListView
 from questions.models import Question, Answer
 from results.models import Result
+import requests
+from django.http.response import JsonResponse
+from django.db import models, transaction
+
+@transaction.atomic
+def getapi(request):
+    response= requests.get('https://opentdb.com/api.php?amount=50&category=17&difficulty=medium&type=multiple')
+    for ques in response.json()['results']:
+        question = Question.objects.create(text= ques['question'],quiz_id = '6')
+        Answer.objects.create(text=ques['correct_answer'],correct=1,question_id=question.id)
+        for ans in ques['incorrect_answers']:
+            Answer.objects.create(text=ans,correct=0,question_id=question.id)
+    return JsonResponse({"message": "sucessfully imported"})
 
 # Create your views here.
 class QuizListView(ListView):
